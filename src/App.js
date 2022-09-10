@@ -1,25 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import * as BooksAPI from "./BooksAPI";
+import BookShelf from "./components/BookShelf";
+import Book from "./components/Book";
+import Search from "./Search";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [books, setBooks] = useState([])
+// getting data from the API
+  useEffect(() => {
+    const getBooks = async () => {
+      const res = await BooksAPI.getAll();
+      setBooks(res);
+    };
+
+    getBooks();
+  }, []); 
+
+console.log(books);
+
+// updating the shelves
+
+const updateShelf = (clickedObject) => {
+let Index = books.findIndex((book) => book.id === clickedObject.id)
+const newShelf = () => books[Index].shelf = clickedObject.shelf 
+setBooks((prev) => [...prev, newShelf])
 }
 
+  return (
+    <div className="app">
+        <div className="list-books">
+          <div className="list-books-title">
+            <h1>myReads</h1>
+          </div>
+          <div className="list-books-content">
+           <BookShelf  title="Currently Reading" filter="currentlyReading" books={books} updateShelf={updateShelf} />
+           <BookShelf  title="Want to Read" filter="wantToRead" books={books} updateShelf={updateShelf} />
+           <BookShelf  title="Read" filter="read" books={books} updateShelf={updateShelf} />
+       </div>
+       </div>
+       <div className="open-search">
+          <Link to="search" aria-label="Search books" className="search_link" >Add a book</Link>
+       </div>
+       </div>
+      )
+}
 export default App;
