@@ -23,7 +23,12 @@ function App() {
      const res = await BooksAPI.update(book, shelf);
      console.log(res)
      setBooks(books.concat([res]));
-     setBooks([...books])
+// making another API call to update the UI
+ const getBooks = async () => {
+      const res = await BooksAPI.getAll();
+      setBooks(res);
+    };
+    getBooks();
    }; 
    update();
   }
