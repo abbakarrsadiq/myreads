@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Book = ({book, updateShelf}) => {
+const Book = ({book, shelfChanger}) => {
 	const choosingShelf = (newShelf) => {
-		updateShelf(newShelf);
+		shelfChanger(newShelf);
 	}
   return (
     <div>

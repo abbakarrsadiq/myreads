@@ -18,12 +18,11 @@ const Search = () => {
 		getBooks();
 	}, []);
 
-	const updateShelf = (clickedObject) => {
-		let Index = books.findIndex((book) => book.id === clickedObject.id)
-		const newShelf = books[Index].shelf = clickedObject.shelf
-		console.log(clickedObject, Index, newShelf)
-		setBooks((prev) => [...prev, newShelf])
+	const shelfChanger = (clickedObject) => {
+		let index = books.findIndex((book) => book.id === clickedObject.id)
+		setBooks(books[index], clickedObject.shelf);
 	}
+	
 	return (
 		<div className="app">
 			<div className="search-books">
@@ -42,7 +41,7 @@ const Search = () => {
 					<ol className="books-grid">
 						{query !== "" && books.filter((book) =>
 							book.title.toLowerCase().includes(query.toLowerCase())).map((book) =>
-								<li key={book.id}><Book book={book} updateShelf={updateShelf} /></li>)
+								<li key={book.id}><Book book={book} shelfChanger={shelfChanger} /></li>)
 						}
 					</ol>
 				</div>

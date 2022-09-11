@@ -20,13 +20,21 @@ function App() {
 
 // updating the shelves
 
-const updateShelf = (clickedObject) => {
+const updateBook = (book, shelf) => {
+  const update= async () => {
+    const res = await BooksAPI.update(book, shelf);
+    setBooks(books.concat(res));
+  };
+  update();
+};
+/*
+const shelfChanger = (clickedObject) => {
 let Index = books.findIndex((book) => book.id === clickedObject.id)
 const newShelf =  books[Index].shelf = clickedObject.shelf 
 console.log(clickedObject, Index, newShelf)
 setBooks((prev) => [...prev, newShelf])
 setBooks([...books])
-}
+}*/
   return (
     <div className="app">
         <div className="list-books">
@@ -34,9 +42,9 @@ setBooks([...books])
             <h1>myReads</h1>
           </div>
           <div className="list-books-content">
-           <BookShelf  title="Currently Reading" filter="currentlyReading" books={books} updateShelf={updateShelf} />
-           <BookShelf  title="Want to Read" filter="wantToRead" books={books} updateShelf={updateShelf} />
-           <BookShelf  title="Read" filter="read" books={books} updateShelf={updateShelf} />
+           <BookShelf  title="Currently Reading" filter="currentlyReading" books={books} shelfChanger={updateBook} />
+           <BookShelf  title="Want to Read" filter="wantToRead" books={books} shelfChanger={updateBook} />
+           <BookShelf  title="Read" filter="read" books={books} shelfChanger={updateBook} />
        </div>
        </div>
        <div className="open-search">
