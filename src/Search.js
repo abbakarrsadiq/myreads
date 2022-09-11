@@ -5,24 +5,35 @@ import { getAll, search, update } from "./BooksAPI";
 import Book from "./components/Book";
 
 const Search = () => {
-	const [books, setBooks] = useState([])
-	const [query, setQuery] = useState("")
-	const updateQuery = (query) => {
-		setQuery(query.trim());
-	};
-	useEffect(() => {
-		const getBooks = async () => {
-			const books = await BooksAPI.getAll();
-			setBooks(books);
-		};
-		getBooks();
-	}, []);
+    const [query, setQuery] = useState("");
+    const [books, setBooks] = useState([]);
 
-	const shelfChanger = (clickedObject) => {
-		let index = books.findIndex((book) => book.id === clickedObject.id)
-		setBooks(books[index], clickedObject.shelf);
-	}
+    useEffect(()=>{
+        const getBooks= async ()=>{
+         const books = await BooksAPI.getAll();
+          setBooks(books);
+        }; 
+        getBooks();
+    },[]);
+
+    const handleChange = (event) => {
+        setQuery(event.target.value);
+    };
+
+    const filteredBooks = books.filter((book) => {
+         return book.title.toLowerCase().includes(query);
+    });
+	const shelfChanger = (book, shelf) => {
 	
+		shelf = book.shelf
+		const update= async () => {
+		  const res = await BooksAPI.update(book, shelf);
+		  console.log(res)
+		  setBooks(books.concat(res));
+		}; 
+		update();
+	}
+
 	return (
 		<div className="app">
 			<div className="search-books">
@@ -30,7 +41,7 @@ const Search = () => {
 					<Link className="close-search" to="/">Close</Link>
 					<div className="search-books-input-wrapper">
 						<input
-							onChange={(e) => { updateQuery(e.target.value) }}
+							onChange={handleChange}
 							type="text"
 							value={query}
 							placeholder="Search by title, author, or ISBN"
@@ -39,10 +50,9 @@ const Search = () => {
 				</div>
 				<div className="search-books-results">
 					<ol className="books-grid">
-						{query !== "" && books.filter((book) =>
-							book.title.toLowerCase().includes(query.toLowerCase())).map((book) =>
+						{query !== "" && filteredBooks.map((book) =>
 								<li key={book.id}><Book book={book} shelfChanger={shelfChanger} /></li>)
-						}
+				}
 					</ol>
 				</div>
 			</div>

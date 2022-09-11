@@ -6,7 +6,6 @@ import BookShelf from "./components/BookShelf";
 import Book from "./components/Book";
 import Search from "./Search";
 
-
 function App() {
   const [books, setBooks] = useState([])
 // getting data from the API
@@ -18,23 +17,16 @@ function App() {
     getBooks();
   }, []); 
 
-// updating the shelves
+  const shelfChanger = (book, shelf) => {
+   shelf = book.shelf
+   const update= async () => {
+     const res = await BooksAPI.update(book, shelf);
+     console.log(res)
+     setBooks(books.concat(res));
+   }; 
+   update();
+  }
 
-const updateBook = (book, shelf) => {
-  const update= async () => {
-    const res = await BooksAPI.update(book, shelf);
-    setBooks(books.concat(res));
-  };
-  update();
-};
-/*
-const shelfChanger = (clickedObject) => {
-let Index = books.findIndex((book) => book.id === clickedObject.id)
-const newShelf =  books[Index].shelf = clickedObject.shelf 
-console.log(clickedObject, Index, newShelf)
-setBooks((prev) => [...prev, newShelf])
-setBooks([...books])
-}*/
   return (
     <div className="app">
         <div className="list-books">
@@ -42,9 +34,9 @@ setBooks([...books])
             <h1>myReads</h1>
           </div>
           <div className="list-books-content">
-           <BookShelf  title="Currently Reading" filter="currentlyReading" books={books} shelfChanger={updateBook} />
-           <BookShelf  title="Want to Read" filter="wantToRead" books={books} shelfChanger={updateBook} />
-           <BookShelf  title="Read" filter="read" books={books} shelfChanger={updateBook} />
+           <BookShelf  title="Currently Reading" filter="currentlyReading" books={books} shelfChanger={shelfChanger} />
+           <BookShelf  title="Want to Read" filter="wantToRead" books={books} shelfChanger={shelfChanger} />
+           <BookShelf  title="Read" filter="read" books={books} shelfChanger={shelfChanger} />
        </div>
        </div>
        <div className="open-search">
