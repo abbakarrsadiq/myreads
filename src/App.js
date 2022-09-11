@@ -22,7 +22,8 @@ function App() {
    const update= async () => {
      const res = await BooksAPI.update(book, shelf);
      console.log(res)
-     setBooks(books.concat(res));
+     setBooks(books.concat([res]));
+     setBooks([...books])
    }; 
    update();
   }
