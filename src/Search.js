@@ -10,17 +10,19 @@ const Search = () => {
 	const updateQuery = (query) => {
 		setQuery(query.trim());
 	};
-useEffect(()=>{
-        const getBooks= async ()=>{
-         const books = await BooksAPI.getAll();
-          setBooks(books);
-        }; 
-        getBooks();
-    },[]);
-	
+	useEffect(() => {
+		const getBooks = async () => {
+			const books = await BooksAPI.getAll();
+			setBooks(books);
+		};
+		getBooks();
+	}, []);
+
 	const updateShelf = (clickedObject) => {
-		let index = books.findIndex(book => book.id === clickedObject.id);
-		setBooks(books[index], clickedObject.shelf);
+		let Index = books.findIndex((book) => book.id === clickedObject.id)
+		const newShelf = books[Index].shelf = clickedObject.shelf
+		console.log(clickedObject, Index, newShelf)
+		setBooks((prev) => [...prev, newShelf])
 	}
 	return (
 		<div className="app">

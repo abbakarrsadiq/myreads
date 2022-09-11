@@ -15,20 +15,18 @@ function App() {
       const res = await BooksAPI.getAll();
       setBooks(res);
     };
-
     getBooks();
   }, []); 
-
-console.log(books);
 
 // updating the shelves
 
 const updateShelf = (clickedObject) => {
 let Index = books.findIndex((book) => book.id === clickedObject.id)
-const newShelf = () => books[Index].shelf = clickedObject.shelf 
+const newShelf =  books[Index].shelf = clickedObject.shelf 
+console.log(clickedObject, Index, newShelf)
 setBooks((prev) => [...prev, newShelf])
+setBooks([...books])
 }
-
   return (
     <div className="app">
         <div className="list-books">
