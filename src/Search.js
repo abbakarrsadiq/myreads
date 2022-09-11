@@ -5,32 +5,27 @@ import { getAll, search, update } from "./BooksAPI";
 import Book from "./components/Book";
 
 const Search = () => {
-    const [query, setQuery] = useState("");
-    const [books, setBooks] = useState([]);
+	const [query, setQuery] = useState("");
+	const [books, setBooks] = useState([]);
+	const handleChange = (event) => {
+		setQuery(event.target.value);
+	};
 
-    useEffect(()=>{
-        const getBooks= async ()=>{
-         const books = await BooksAPI.getAll();
-          setBooks(books);
-        }; 
-        getBooks();
-    },[]);
+	const bookSearch = (query, maxResult) => {
+		const lookup = async () => {
+			const res = await BooksAPI.search(query, 10);
+			setBooks([res])
+		};
+		lookup();
+	}
 
-    const handleChange = (event) => {
-        setQuery(event.target.value);
-    };
-
-    const filteredBooks = books.filter((book) => {
-         return book.title.toLowerCase().includes(query);
-    });
 	const shelfChanger = (book, shelf) => {
-	
 		shelf = book.shelf
-		const update= async () => {
-		  const res = await BooksAPI.update(book, shelf);
-		  console.log(res)
-		  setBooks(books.concat(res));
-		}; 
+		const update = async () => {
+			const res = await BooksAPI.update(book, shelf);
+			console.log(res)
+			setBooks(books.concat(res));
+		};
 		update();
 	}
 
@@ -50,9 +45,10 @@ const Search = () => {
 				</div>
 				<div className="search-books-results">
 					<ol className="books-grid">
-						{query !== "" && filteredBooks.map((book) =>
-								<li key={book.id}><Book book={book} shelfChanger={shelfChanger} /></li>)
-				}
+						{books.filter((book) =>
+							book.title.toLowerCase().includes(query.toLowerCase())
+						).map((book) => <li key={book.id}><Book book={book} shelfChanger={shelfChanger} /></li>
+						)}
 					</ol>
 				</div>
 			</div>

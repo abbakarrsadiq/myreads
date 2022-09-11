@@ -15,9 +15,9 @@ function App() {
       setBooks(res);
     };
     getBooks();
-  }, []); 
+  }, []);
 
-  const shelfChanger = (book, shelf) => {
+ const shelfChanger = (book, shelf) => {
    shelf = book.shelf
    const update= async () => {
      const res = await BooksAPI.update(book, shelf);
