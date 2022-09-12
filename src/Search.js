@@ -5,22 +5,23 @@ import { getAll, search, update } from "./BooksAPI";
 import Book from "./components/Book";
 
 const Search = () => {
-	const [books, setBooks] = useState([])
 	const [query, setQuery] = useState("");
+	const [books, setBooks] = useState([])
 
 	const handleChange = (event) => {
-		setQuery(event.target.value);
+		setQuery(event.target.value.trim());
         event.preventDefault(); 
 	const lookup = async () => {
     const res = await BooksAPI.search(query);
-	if (books.error) {
-		setBooks([])
-	} else {
+	if (res !== books.error) {
 		setBooks(res)
+	} else {
+		setBooks([])
 	}
   }; lookup();
 
 	};
+	
 	const shelfChanger = (book, shelf) => {
 		shelf = book.shelf
 		const update = async () => {
