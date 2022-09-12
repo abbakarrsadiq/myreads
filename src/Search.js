@@ -9,25 +9,30 @@ const Search = () => {
 	const [books, setBooks] = useState([])
 
 	const handleChange = (event) => {
-		setQuery(event.target.value.trim());
+		setQuery(event.target.value.trim().toLowerCase());
         event.preventDefault(); 
 	const lookup = async () => {
-		const res = await BooksAPI.search(query);
-		if (res === books.error) { console.log("res", res)
+		const res = await BooksAPI.getAll(query);
+		if (res.error) 
+		{ console.log("res", res)
 		return setBooks([]) }
 		console.log("res", res) 
-return setBooks(res)
-  }; lookup();
+        return setBooks(res)
+            }; lookup();
 	};
-	
-const shelfChanger = (book, shelf) => {
+
+	const shelfChanger = (book, shelf) => {
 		shelf = book.shelf
 		const update= async () => {
 		  const res = await BooksAPI.update(book, shelf);
-		if (res.error) { console.log("res", res)
-		return setBooks([]) }
 		  console.log(res)
-	    setBooks(books.concat(res));
+		  setBooks(books.concat([res]));
+	 // making another API call to update the UI
+	  const getBooks = async () => {
+		   const res = await BooksAPI.getAll();
+		   setBooks(res);
+		 };
+		 getBooks();
 		}; 
 		update();
 	   }
@@ -48,7 +53,7 @@ const shelfChanger = (book, shelf) => {
 				</div>
 				<div className="search-books-results">
 					<ol className="books-grid">
-						{query !== undefined && books.filter((book) => book.title.toLowerCase().includes(query.toLowerCase()))
+						{query !== undefined && books.filter((book) => book.title.toLowerCase().includes(query))
 						.map((book) => <li key={book.id}><Book book={book} shelfChanger={shelfChanger} /></li>)}
 				</ol>
 				</div>
