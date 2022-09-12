@@ -9,11 +9,11 @@ const Search = () => {
 	const [books, setBooks] = useState([])
 
 	const handleChange = (event) => {
-		setQuery(event.target.value.trim().toLowerCase());
+		setQuery(event.target.value.trim());
         event.preventDefault(); 
 	const lookup = async () => {
 		const res = await BooksAPI.search(query);
-		if (res.error) 
+		if (res === books.error) 
 		{ console.log("res", res)
 		return setBooks([]) }
 		console.log("res", res) 
@@ -43,7 +43,7 @@ const Search = () => {
 				</div>
 				<div className="search-books-results">
 					<ol className="books-grid">
-						{query !== undefined && books.filter((book) => book.title.toLowerCase().includes(query))
+						{query !== "" && books.filter((book) => book.title.toLowerCase().includes(query))
 						.map((book) => <li key={book.id}><Book book={book} shelfChanger={shelfChanger} /></li>)}
 				</ol>
 				</div>

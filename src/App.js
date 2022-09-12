@@ -3,8 +3,6 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import * as BooksAPI from "./BooksAPI";
 import BookShelf from "./components/BookShelf";
-import Book from "./components/Book";
-import Search from "./Search";
 
 function App() {
   const [books, setBooks] = useState([])
@@ -16,7 +14,7 @@ function App() {
     };
     getBooks();
   }, []);
-
+// updating the shelf
  const shelfChanger = (book, shelf) => {
    shelf = book.shelf
    const update= async () => {
