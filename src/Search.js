@@ -12,7 +12,7 @@ const Search = () => {
 		setQuery(event.target.value.trim().toLowerCase());
         event.preventDefault(); 
 	const lookup = async () => {
-		const res = await BooksAPI.getAll(query);
+		const res = await BooksAPI.search(query);
 		if (res.error) 
 		{ console.log("res", res)
 		return setBooks([]) }
@@ -20,22 +20,12 @@ const Search = () => {
         return setBooks(res)
             }; lookup();
 	};
-
-	const shelfChanger = (book, shelf) => {
+  const shelfChanger = (book, shelf) => {
 		shelf = book.shelf
-		const update= async () => {
-		  const res = await BooksAPI.update(book, shelf);
-		  console.log(res)
-		  setBooks(books.concat([res]));
-	 // making another API call to update the UI
-	  const getBooks = async () => {
-		   const res = await BooksAPI.getAll();
-		   setBooks(res);
-		 };
-		 getBooks();
-		}; 
+		const update = async () => {
+		await BooksAPI.update(book, shelf); };
 		update();
-	   }
+		}
 	 
 	return (
 		<div className="app">
