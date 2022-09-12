@@ -7,11 +7,12 @@ import Book from "./components/Book";
 const Search = () => {
 	const [books, setBooks] = useState([])
 	const [query, setQuery] = useState("");
+
 	const handleChange = (event) => {
 		setQuery(event.target.value.trim());
         event.preventDefault(); 
 	const lookup = async () => {
-    const res = await BooksAPI.search(query, 10);
+    const res = await BooksAPI.search(query);
           setBooks(res)
 		  console.log(books)
   }; lookup();
