@@ -13,10 +13,9 @@ const Search = () => {
         event.preventDefault(); 
 	const lookup = async () => {
 		const res = await BooksAPI.search(query);
-		if (res .error) { console.log("res", res)
+		if (res === books.error) { console.log("res", res)
 		return setBooks([]) }
-		console.log("res", res)
-		
+		console.log("res", res) 
 return setBooks(res)
   }; lookup();
 	};
@@ -25,11 +24,14 @@ const shelfChanger = (book, shelf) => {
 		shelf = book.shelf
 		const update= async () => {
 		  const res = await BooksAPI.update(book, shelf);
+		if (res.error) { console.log("res", res)
+		return setBooks([]) }
 		  console.log(res)
-		  setBooks(books.concat([res]));
+	    setBooks(books.concat(res));
 		}; 
 		update();
 	   }
+	 
 	return (
 		<div className="app">
 			<div className="search-books">
