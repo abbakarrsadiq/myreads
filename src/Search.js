@@ -12,25 +12,24 @@ const Search = () => {
 		setQuery(event.target.value.trim());
         event.preventDefault(); 
 	const lookup = async () => {
-    const res = await BooksAPI.search(query);
-	if (res !== books.error) {
-		setBooks(res)
-	} else {
-		setBooks([])
-	}
+		const res = await BooksAPI.search(query);
+		if (res .error) { console.log("res", res)
+		return setBooks([]) }
+		console.log("res", res)
+		
+return setBooks(res)
   }; lookup();
-
 	};
 	
-	const shelfChanger = (book, shelf) => {
+const shelfChanger = (book, shelf) => {
 		shelf = book.shelf
-		const update = async () => {
-			const res = await BooksAPI.update(book, shelf);
-			console.log(res)
-			setBooks(books.concat(res));
-		};
+		const update= async () => {
+		  const res = await BooksAPI.update(book, shelf);
+		  console.log(res)
+		  setBooks(books.concat([res]));
+		}; 
 		update();
-	}
+	   }
 	return (
 		<div className="app">
 			<div className="search-books">
