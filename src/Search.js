@@ -6,10 +6,10 @@ import Book from "./components/Book";
 
 const Search = () => {
 	const [books, setBooks] = useState([])
-	const [query, setQuery] = useState(undefined);
+	const [query, setQuery] = useState("");
 
 	const handleChange = (event) => {
-		setQuery(event.target.value.trim());
+		setQuery(event.target.value);
         event.preventDefault(); 
 	const lookup = async () => {
     const res = await BooksAPI.search(query);
