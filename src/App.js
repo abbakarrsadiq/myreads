@@ -38,6 +38,7 @@ function App() {
         <div className="list-books">
           <div className="list-books-title">
             <h1>myReads</h1>
+            <Search books={books} setBooks={setBooks}/>
           </div>
           <div className="list-books-content">
            <BookShelf  title="Currently Reading" filter="currentlyReading" books={books} shelfChanger={shelfChanger} />
