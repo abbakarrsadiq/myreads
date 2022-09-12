@@ -7,17 +7,15 @@ import Book from "./components/Book";
 const Search = () => {
 	const [query, setQuery] = useState("");
 	const [books, setBooks] = useState([]);
-	const handleChange = (event) => {
-		setQuery(event.target.value);
-		const lookup = async () => {
-			const res = await BooksAPI.search(query);
-			console.log(res)
-			setBooks([res])
-		};
-		lookup();
-	};
-
-	const shelfChanger = (book, shelf) => {
+	
+useEffect(() => {
+    const searchBooks = async (query) => {
+      const res = await BooksAPI.search(query);
+      setBooks(res);
+    };
+    searchBooks();
+  }, [query]);
+const shelfChanger = (book, shelf) => {
 		shelf = book.shelf
 		const update = async () => {
 			const res = await BooksAPI.update(book, shelf);
@@ -26,7 +24,6 @@ const Search = () => {
 		};
 		update();
 	}
-
 	return (
 		<div className="app">
 			<div className="search-books">
@@ -34,7 +31,7 @@ const Search = () => {
 					<Link className="close-search" to="/">Close</Link>
 					<div className="search-books-input-wrapper">
 						<input
-							onChange={handleChange}
+							onChange={(event) => setQuery(event.target.value)}
 							type="text"
 							value={query}
 							placeholder="Search by title, author, or ISBN"
@@ -42,13 +39,13 @@ const Search = () => {
 					</div>
 				</div>
 				<div className="search-books-results">
-					<ol className="books-grid">
+					<ol className="books-grid">	
+					{query !== "" && books.filter((book) => book.title.toLowerCase().includes(query.toLowerCase())).map((book) => <li key={book.id}><Book book={book} shelfChanger={shelfChanger} /></li>)}
 					</ol>
 				</div>
 			</div>
 		</div>
-	)
-}
+	)}
 
 export default Search;
 
