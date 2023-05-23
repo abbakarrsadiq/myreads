@@ -1,4 +1,5 @@
 React Bookshelf App
+
 This application was developed as part of the Udacity React Nanodegree program to showcase the understanding of the basic structure and operation of a React-based app.
 
 The React Bookshelf App allows users to search for books and organize them into different shelves. The shelves are categorized into three categories: "Currently Reading," "To Read," and "Read." The books are displayed on the homepage based on their respective shelves by default.
